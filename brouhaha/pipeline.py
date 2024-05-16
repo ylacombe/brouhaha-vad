@@ -17,7 +17,7 @@ from pyannote.metrics.detection import (
 from pyannote.pipeline.parameter import Uniform
 
 from .utils.metrics import CustomMeanAbsoluteError, OptimalFScore
-from.inference import BrouhahaInference
+from .inference import BrouhahaInference
 
 class RegressiveActivityDetectionPipeline(Pipeline):
     """Voice activity detection pipeline
@@ -153,6 +153,7 @@ class RegressiveActivityDetectionPipeline(Pipeline):
 
         return {
             "annotation": speech.rename_labels({label: "A" for label in speech.labels()}),
+            "vad_detection_array": segmentations.data[:, 0] > self.onset,
             "snr": snr_labels,
             "c50": c50_labels
         }
